@@ -30,24 +30,15 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
-def recipe_omlet_view(request):
+def recipe_omlet_view(request, omlet):
     servings = int(request.GET.get('servings', 1))
-    context = {
-        'recipe': {
-            'яйца, шт': 2 * servings,
-            'молоко, л': 0.1 * servings,
-            'соль, ч.л.': 0.5 * servings,
-        },
-    }
+    omlet = {ingredient: amount * servings for ingredient, amount in DATA['omlet'].items()}
+    context = {'recipe': omlet}
     return render(request, 'calculator/index.html', context)
 
 
-def recipe_pasta_view(request):
+def recipe_pasta_view(request, pasta):
     servings = int(request.GET.get('servings', 1))
-    context = {
-        'recipe': {
-            'макароны, кг': 0.3 * servings,
-            'сыр, кг': 0.05 * servings,
-        },
-    }
+    pasta = {ingredient: amount * servings for ingredient, amount in DATA['pasta'].items()}
+    context = {'recipe': pasta}
     return render(request, 'calculator/index.html', context)

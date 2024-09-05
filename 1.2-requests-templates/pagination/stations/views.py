@@ -9,7 +9,6 @@ def index(request):
 def bus_stations(request):
     # получите текущую страницу и передайте ее в контекст
     # также передайте в контекст список станций на странице
-
     context = {
     #     'bus_stations': ...,
     #     'page': ...,
