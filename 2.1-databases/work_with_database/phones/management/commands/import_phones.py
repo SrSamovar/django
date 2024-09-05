@@ -19,8 +19,8 @@ class Command(BaseCommand):
                 image=phone['image'],
                 price=phone['price'],
                 release_date=phone['release_date'],
-                lte_exists=phone['lte_exists'].lower() == 'true',
+                lte_exists=phone['lte_exists'],
             )
             phone_example.save()
 
-        self.stdout.write(self.style.SUCCESS('Телефоны успешно загружены.'))
+
