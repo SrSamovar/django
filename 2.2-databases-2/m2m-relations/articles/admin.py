@@ -1,21 +1,21 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.core.exceptions import ValidationError
 from django.forms import BaseInlineFormSet
 from .models import Scope, Article, Tag
 
 
-# class RelationshipInlineFormset(BaseInlineFormSet):
-#     def clean(self):
-#         for form in self.forms:
-#             if not form.cleaned_data:
-#                 raise ValidationError
-#
-#         return super().clean()
+class RelationshipInlineFormset(BaseInlineFormSet):
+    def clean(self):
+        for form in self.forms:
+            if not form.cleaned_data:
+                raise ValidationError("Все формы должны быть заполнены.")
+        return super().clean()
 
 
 class ScopeInline(admin.TabularInline):
     model = Scope
-    # formset = RelationshipInlineFormset
+    formset = RelationshipInlineFormset
+    extra = 0
 
 
 @admin.register(Article)
@@ -29,3 +29,4 @@ class ArticleAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
     list_filter = ['name']
+

@@ -12,4 +12,4 @@ class StudentAdmin(admin.ModelAdmin):
 @admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'subject']
-    list_filter = ['name']
+    list_filter = ['subject']

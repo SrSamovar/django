@@ -24,17 +24,12 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-    def get_scopes(self):
-        scopes = self.scopes.all()
-        main = scopes.filter(is_main=True).first()
-
-        if main:
-            sorted_scopes = [main] + list(scopes.exclude(id=main.id).order_by('tag__name'))
-
-        return sorted_scopes
-
 
 class Scope(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='scopes')
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='scopes')
     is_main = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-is_main', 'tag']
+        unique_together = ['article', 'is_main']
