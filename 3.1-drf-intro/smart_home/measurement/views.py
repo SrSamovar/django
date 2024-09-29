@@ -31,3 +31,13 @@ class ListSensorView(generics.ListAPIView):
         data = [{'id': sensor['id'], 'name': sensor['name'], 'description': sensor['description']}
                 for sensor in serializer.data]
         return Response(data)
+
+
+class SearchSensorView(generics.RetrieveAPIView):
+    queryset = Sensor.objects.all()
+    serializer_class = SensorSerializers
+
+    def retrieve(self, request, *args, **kwargs):
+        queryset = self.get_object()
+        serializer = self.get_serializer(queryset)
+        return Response(serializer.data)
