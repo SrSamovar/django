@@ -23,7 +23,3 @@ class StockViewSet(ModelViewSet):
     filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = ['address']
     pagination_class = LimitOffsetPagination
-    def get_stocks_by_product(self, request, product_id):
-        stocks = Stock.objects.filter(product_id=product_id).distinct()
-        serializer = self.get_serializer(stocks, many=True)
-        return Response(serializer.data)

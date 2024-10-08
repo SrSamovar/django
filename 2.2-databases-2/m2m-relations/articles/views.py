@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from articles.models import Article
+from .models import Article
 
 
 def articles_list(request):
