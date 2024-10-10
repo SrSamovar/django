@@ -12,19 +12,23 @@ class AdvertisementStatusChoices(models.TextChoices):
 class Advertisement(models.Model):
     """Объявление."""
 
-    title = models.TextField()
-    description = models.TextField(default='')
+    title = models.TextField(verbose_name='Название')
+    description = models.TextField(default='', verbose_name='Описание')
     status = models.TextField(
         choices=AdvertisementStatusChoices.choices,
-        default=AdvertisementStatusChoices.OPEN
+        default=AdvertisementStatusChoices.OPEN,
+        verbose_name='Статус'
     )
     creator = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        verbose_name='Автор'
     )
     created_at = models.DateTimeField(
-        auto_now_add=True
+        auto_now_add=True,
+        verbose_name='Дата создания'
     )
     updated_at = models.DateTimeField(
-        auto_now=True
+        auto_now=True,
+        verbose_name='Дата обновления'
     )
