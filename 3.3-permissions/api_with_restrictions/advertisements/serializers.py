@@ -24,7 +24,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisement
         fields = ('id', 'title', 'description', 'creator',
-                  'status', 'created_at', )
+                  'status', 'created_at',)
         read_only_fields = ['creator']
 
     def create(self, validated_data):
@@ -36,10 +36,6 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         # обратите внимание на `context` – он выставляется автоматически
         # через методы ViewSet.
         # само поле при этом объявляется как `read_only=True`
-        open_count = Advertisement.objects.filter(creator=self.context['request'].user,
-                                                  status='OPEN').count()
-        if open_count >= 10:
-            raise ValidationError('Вы не можете создать больше 10 открытых объявлений')
 
         validated_data["creator"] = self.context["request"].user
         return super().create(validated_data)
@@ -48,10 +44,16 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         """Метод для валидации. Вызывается при создании и обновлении."""
 
         # TODO: добавьте требуемую валидацию
-        if not data.get('title'):
-            raise ValidationError('Укажите заголовок')
+        user = self.context['request'].user
 
-        if not data.get('description'):
-            raise ValidationError('Укажите описание')
+        if self.instance:
+            if 'status' in data and data['status'] == ['OPEN']:
+                open_count = Advertisement.objects.filter(creator=user, status='OPEN').count()
+                if open_count >= 10:
+                    raise ValidationError('Вы не можете создать больше 10 открытых объявлений')
+        else:
+            open_count = Advertisement.objects.filter(creator=user, status='OPEN').count()
+            if open_count >= 10:
+                raise ValidationError('Вы не можете создать больше 10 открытых объявлений')
 
         return data

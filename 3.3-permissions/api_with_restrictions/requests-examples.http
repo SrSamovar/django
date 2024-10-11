@@ -21,7 +21,7 @@ Authorization: Token ef6fb84556c7a627cb351ac46a3fd12517724534
 ###
 
 # попытка поменять объявление
-PATCH {{baseUrl}}/advertisements/4/
+PATCH {{baseUrl}}/advertisements/6/
 Content-Type: application/json
 Authorization: Token ef6fb84556c7a627cb351ac46a3fd12517724534
 
